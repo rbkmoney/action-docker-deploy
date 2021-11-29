@@ -21,5 +21,5 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
       steps:
-        uses: rbkmoney/action-docker-deploy@v1
+        uses: empayre/action-docker-deploy@v1
 ```
