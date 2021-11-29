@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
+  "name": "action-docker-deploy",
   "version": "0.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "Docker deploy action",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -11,11 +11,11 @@
     "lint": "eslint src/**/*.ts",
     "package": "ncc build --source-map --license licenses.txt",
     "test": "jest",
-    "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
+    "all": "npm run build && npm run format && npm run lint && npm run package"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/rbkmoney/action-docker-deploy.git"
   },
   "keywords": [
     "actions",
@@ -23,7 +23,6 @@
     "setup"
   ],
   "author": "",
-  "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.6.0"
   },

@@ -1,11 +1,30 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: "Publish docker image"
+description: "Pushes build artifacts to DockerHub"
 inputs:
-  milliseconds: # change this
+  registry-username:
+    description: 'Username for image registry'
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  registry-password:
+    description: 'Password for image registry'
+    required: true
+  dockerfile-path:
+    description: 'Path to dockerfile directory'
+    required: false
+    default: './target'
+
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        echo "REPOSITORY_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+        echo "IMAGE_NAME=${GITHUB_REPOSITORY_OWNER,,}/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+    - shell: bash
+      run: docker build -t "${IMAGE_NAME}:latest" -t "${IMAGE_NAME}:${GITHUB_SHA::8}" ${{inputs.dockerfile-path}}
+
+    - shell: bash
+      run: docker login -u ${{inputs.registry-username}} -p ${{inputs.registry-password}}
+
+    - shell: bash
+      run: docker push --all-tags "${GITHUB_REPOSITORY_OWNER,,}/${REPOSITORY_NAME}"
