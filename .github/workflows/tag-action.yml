@@ -1,0 +1,26 @@
+name: Create Tag
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Checkout GitHub Action Repo
+        uses: actions/checkout@v2
+        with:
+          repository: empayre/action-tagger
+          ref: v1
+          ssh-key: '${{ secrets.ACTIONS_FETCH_KEY }}'
+          path: .github/actions/action-tagger
+
+      - uses: ./.github/actions/action-tagger
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          with-v: true
