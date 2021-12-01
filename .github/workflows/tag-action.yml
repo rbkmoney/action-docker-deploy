@@ -17,7 +17,7 @@ jobs:
         with:
           repository: empayre/action-tagger
           ref: v1
-          ssh-key: '${{ secrets.ACTIONS_FETCH_KEY }}'
+          token: '${{ secrets.ACTIONS_FETCH_TOKEN }}'
           path: .github/actions/action-tagger
 
       - uses: ./.github/actions/action-tagger
