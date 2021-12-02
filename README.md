@@ -8,12 +8,13 @@ This action deploy docker image
 | ------------------ | ---------------------------------------------------------------------------------------------- |
 | `registry-username`| Username for image registry                                                                    |
 | `registry-password`| Password for image registry                                                                    |
+| `docker-registry`  | Docker image registry                                                                          |
 | `dokerfile-path`   | Path to dockerfile directory                                                                   |
 
 ## Example Workflow File
 
 ```yaml
-name: Build maven project and deploy docker image
+name: Deploy docker image
 
 on: [pull_request]
 
@@ -21,5 +22,5 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
       steps:
-        uses: empayre/action-docker-deploy@v1
+        uses: empayre/action-docker-deploy@v1.0.0
 ```
