@@ -26,24 +26,12 @@ runs:
         username: ${{ inputs.registry-username }}
         password: ${{ inputs.registry-access-token }}
 
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
-      with:
-        aws-access-key-id: ${{ secrets.ECR_ACCESS_KEY }}
-        aws-secret-access-key: ${{ secrets.ECR_SECRET_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@aaf69d68aa3fb14c1d5a6be9ac61fe15b48453a2
-
     - name: Extract metadata (tags, labels) for Docker
       id: meta
       uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
       with:
         images: |
-          ${{ secrets.ECR_REGISTRY }}/${{ github.repository }}
+          ${{ env.ECR_REGISTRY }}/${{ github.repository }}
           ${{ inputs.docker-registry }}/${{ github.repository }}
         tags: |
           type=sha
