@@ -11,6 +11,15 @@ inputs:
     description: 'Docker registry'
     required: false
     default: 'ghcr.io'
+  aws-ecr-access-key:
+    description: 'Amazon ECR access key'
+    required: true
+  aws-ecr-secret-key:
+    description: 'Amazon ECR secret key'
+    required: true
+  aws-region:
+    description: 'AWS region'
+    required: true
   dockerfile-path:
     description: 'Path to dockerfile directory'
     required: false
@@ -26,12 +35,23 @@ runs:
         username: ${{ inputs.registry-username }}
         password: ${{ inputs.registry-access-token }}
 
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
+      with:
+        aws-access-key-id: ${{ inputs.aws-ecr-access-key }}
+        aws-secret-access-key: ${{ inputs.aws-ecr-access-key }}
+        aws-region: ${{ inputs.aws-region }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@aaf69d68aa3fb14c1d5a6be9ac61fe15b48453a2
+
     - name: Extract metadata (tags, labels) for Docker
       id: meta
       uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
       with:
         images: |
-          ${{ env.ECR_REGISTRY }}/${{ github.repository }}
+          ${{ steps.login-ecr.outputs.registry }}/${{ github.repository }}
           ${{ inputs.docker-registry }}/${{ github.repository }}
         tags: |
           type=sha
