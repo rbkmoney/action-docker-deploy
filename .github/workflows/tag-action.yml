@@ -15,7 +15,7 @@ jobs:
       - name: Checkout GitHub Action Repo
         uses: actions/checkout@v2
         with:
-          repository: empayre/action-tagger
+          repository: al/action-tagger
           ref: v1
           token: '${{ secrets.ACTIONS_FETCH_TOKEN }}'
           path: .github/actions/action-tagger
